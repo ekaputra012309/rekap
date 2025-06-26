@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class ComponensSeeder extends Seeder
 {
@@ -13,22 +14,10 @@ class ComponensSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('kajians')->insert([
-            [
-                'nama_kajian' => 'Kamis',                
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama_kajian' => 'Sabtu',                
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama_kajian' => 'Ahad',                
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+        DB::table('users')->insert([
+            'name' => 'Super Admin',
+            'email' => 'admin123@gmail.com',
+            'password' => Hash::make('password'), // Replace with secure password
         ]);
 
         DB::table('bayars')->insert([
