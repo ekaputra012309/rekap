@@ -1,0 +1,128 @@
+@extends('layouts.app')
+
+@section('title', $title)
+
+@section('content')
+    <h2>{{ $title }}</h2>
+    <!-- New Row for DataTable -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 d-none d-md-block">Data {{ $title }}</h5>
+                    <div>
+                        <button id="add-btn" class="btn btn-sm btn-success" title="Add">Add <i
+                                class="fas fa-plus"></i></button>
+                        <button id="edit-btn" class="btn btn-sm btn-primary ms-2" title="Edit">Edit <i
+                                class="fas fa-edit"></i></button>
+                        <button id="delete-btn" class="btn btn-sm btn-danger ms-2" title="Delete">Hapus <i
+                                class="fas fa-trash-alt"></i></button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="table-wrapper">
+                        <div class="table-responsive">
+                            <table id="example" class="table table-striped" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox" id="select-all"></th>
+                                        <th>List Pemasukan</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            let table = $('#example').DataTable({
+                // dom: 'Bfrtip',
+                columnDefs: [{
+                    targets: 0,
+                    width: '50px'
+                }, ],
+                language: {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search..."
+                },
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('incomes.data') }}",
+                columns: [{
+                        data: 'checkbox',
+                        name: 'checkbox',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'nama_list_in',
+                        name: 'nama_list_in'
+                    }
+                ]
+            });
+
+            // Keep your checkbox logic here
+            $(document).on('click', '#select-all', function() {
+                $('.row-checkbox').prop('checked', this.checked);
+            });
+
+            $(document).on('change', '.row-checkbox', function() {
+                if (!this.checked) {
+                    $('#select-all').prop('checked', false);
+                }
+            });
+
+            // Add
+            $('#add-btn').on('click', function() {
+                window.location.href = `/income/create`;
+            });
+
+            // Edit
+            $('#edit-btn').on('click', function() {
+                let selected = $('.row-checkbox:checked');
+                if (selected.length !== 1) {
+                    showToast('Please select exactly one item to edit.', 'danger');
+                    return;
+                }
+                let id = selected.val();
+                window.location.href = `/income/${id}/edit`;
+            });
+
+            // Delete
+            $('#delete-btn').on('click', function() {
+                let selected = $('.row-checkbox:checked');
+                if (selected.length === 0) {
+                    showToast('Please select at least one item to delete.', 'danger');
+                    return;
+                }
+
+                let ids = selected.map(function() {
+                    return $(this).val();
+                }).get();
+
+                confirmModal('Are you sure you want to delete selected income?', function() {
+                    $.ajax({
+                        url: '/income/delete-multiple',
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            ids: ids
+                        },
+                        success: function(res) {
+                            table.ajax.reload(null,
+                                false); // false = keep current pagination
+                            showToast('income deleted successfully!', 'success');
+                        },
+                        error: function() {
+                            alert('Failed to delete. Please try again.');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+@endsection
