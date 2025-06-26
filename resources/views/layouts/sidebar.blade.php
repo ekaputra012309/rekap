@@ -11,7 +11,6 @@
         <ul class="nav flex-column">
             <li class="nav-item"><a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
                     href="{{ route('dashboard') }}"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-users me-2"></i>Users</a></li>
             <li class="nav-item">
                 <a class="nav-link text-dark" data-bs-toggle="collapse" href="#masterSubmenu" role="button"
                     aria-expanded="false" aria-controls="masterSubmenu">
@@ -20,17 +19,39 @@
                 <div class="collapse ps-3" id="masterSubmenu">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('poliklinik.index') ? 'active' : '' }}"
-                                href="{{ route('poliklinik.index') }}">Poliklinik</a>
+                            <a class="nav-link {{ request()->routeIs('income.index') ? 'active' : '' }}"
+                                href="{{ route('income.index') }}">List Pendapatan</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('dokter.index') ? 'active' : '' }}"
-                                href="{{ route('dokter.index') }}">Dokter</a>
+                            <a class="nav-link {{ request()->routeIs('outcome.index') ? 'active' : '' }}"
+                                href="{{ route('outcome.index') }}">List Pengeluaran</a>
                         </li>
                     </ul>
                 </div>
             </li>
             <li class="nav-item">
+                <a class="nav-link text-dark" data-bs-toggle="collapse" href="#transaksisSubmenu" role="button"
+                    aria-expanded="false" aria-controls="transaksisSubmenu">
+                    <i class="fas fa-book-open me-2"></i>Transaksi <i class="fas fa-chevron-down float-end"></i>
+                </a>
+                <div class="collapse ps-3" id="transaksisSubmenu">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('gess.index') ? 'active' : '' }}"
+                                href="{{ route('gess.index') }}">GESS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('doom.index') ? 'active' : '' }}"
+                                href="{{ route('doom.index') }}">DOOM</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('gib.index') ? 'active' : '' }}"
+                                href="{{ route('gib.index') }}">GIB</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            {{-- <li class="nav-item">
                 <a class="nav-link text-dark" data-bs-toggle="collapse" href="#settingsSubmenu" role="button"
                     aria-expanded="false" aria-controls="settingsSubmenu">
                     <i class="fas fa-cogs me-2"></i>Settings <i class="fas fa-chevron-down float-end"></i>
@@ -42,7 +63,7 @@
                         <li class="nav-item"><a class="nav-link " href="#">Notifications</a></li>
                     </ul>
                 </div>
-            </li>
+            </li> --}}
             <li class="nav-item">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
