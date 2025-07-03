@@ -14,11 +14,14 @@ class ComponensSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('users')->insert([
-            'name' => 'Super Admin',
-            'email' => 'admin123@gmail.com',
-            'password' => Hash::make('password'), // Replace with secure password
-        ]);
+        // DB::table('users')->insert([
+        //     'name' => 'Super Admin',
+        //     'username' => 'superadmin',
+        //     'email' => 'admin123@gmail.com',
+        //     'password' => Hash::make('password'), // Replace with secure password
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        // ]);
 
         DB::table('bayars')->insert([
             [

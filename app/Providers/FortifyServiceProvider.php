@@ -16,6 +16,8 @@ use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Contracts\LoginResponse;
 use Laravel\Fortify\Contracts\RegisterResponse;
 use Illuminate\Http\RedirectResponse;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -41,6 +43,20 @@ class FortifyServiceProvider extends ServiceProvider
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
 
             return Limit::perMinute(5)->by($throttleKey);
+        });
+
+        Fortify::authenticateUsing(function (Request $request) {
+            $login = $request->input('login');   // <— one input for both
+        
+            $user = User::where('email', $login)
+                        ->orWhere('username', $login)
+                        ->first();
+        
+            if ($user && Hash::check($request->password, $user->password)) {
+                return $user;        // authentication successful
+            }
+        
+            return null;             // authentication failed
         });
 
         RateLimiter::for('two-factor', function (Request $request) {
