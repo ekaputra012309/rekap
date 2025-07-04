@@ -11,25 +11,37 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pemasukans', function (Blueprint $table) {
+        Schema::create('pemasukan_headers', function (Blueprint $table) {
             $table->id();
             $table->dateTime('tanggal');
-            $table->string('rincian_pemasukan');
-            $table->decimal('nominal', 10, 2);
-            $table->string('keterangan')->nullable();
-            $table->foreignId('income_id')->constrained('incomes')->onDelete('cascade');
+            $table->decimal('total', 15, 2)->default(0); // Add total to header
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
+        Schema::create('pemasukan_details', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('pemasukan_header_id')->constrained('pemasukan_headers')->onDelete('cascade');
+            $table->foreignId('income_id')->nullable()->constrained('incomes')->onDelete('set null');
+            $table->string('custom_rincian')->nullable();
+            $table->string('keterangan')->nullable(); // Move here
+            $table->decimal('nominal', 10, 2);
+            $table->timestamps();
+        });
 
-        Schema::create('pengeluarans', function (Blueprint $table) {
+        Schema::create('pengeluaran_headers', function (Blueprint $table) {
             $table->id();
             $table->dateTime('tanggal');
-            $table->string('rincian_pengeluaran');
-            $table->decimal('nominal', 10, 2);
-            $table->string('keterangan')->nullable();
-            $table->foreignId('income_id')->constrained('incomes')->onDelete('cascade');
+            $table->decimal('total', 15, 2)->default(0); // Add total to header
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->timestamps();
+        });
+        Schema::create('pengeluaran_details', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('pengeluaran_header_id')->constrained('pengeluaran_headers')->onDelete('cascade');
+            $table->foreignId('outcome_id')->nullable()->constrained('outcomes')->onDelete('set null');
+            $table->string('custom_rincian')->nullable();
+            $table->string('keterangan')->nullable(); // Move here
+            $table->decimal('nominal', 10, 2);
             $table->timestamps();
         });
 
@@ -73,7 +85,9 @@ return new class extends Migration
         Schema::dropIfExists('gibs');
         Schema::dropIfExists('dooms');
         Schema::dropIfExists('gesss');
-        Schema::dropIfExists('pengeluarans');
-        Schema::dropIfExists('pemasukans');
+        Schema::dropIfExists('pemasukan_headers');
+        Schema::dropIfExists('pemasukan_details');
+        Schema::dropIfExists('pengeluaran_headers');
+        Schema::dropIfExists('pengeluaran_details');
     }
 };
