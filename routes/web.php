@@ -7,6 +7,8 @@ use App\Http\Controllers\OutcomesController;
 use App\Http\Controllers\GessController;
 use App\Http\Controllers\DoomController;
 use App\Http\Controllers\GibController;
+use App\Http\Controllers\PemasukanController;
+use App\Http\Controllers\PengeluaranController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -37,6 +39,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/gib/delete-multiple', [GibController::class, 'deleteMultiple']);
     Route::get('/gibs/data', [GibController::class, 'getData'])->name('gibs.data');
 
+    Route::resource('pemasukan', PemasukanController::class);
+    Route::post('/pemasukan/delete-multiple', [PemasukanController::class, 'deleteMultiple']);
+    Route::get('/pemasukans/data', [PemasukanController::class, 'getData'])->name('pemasukans.data');
+
+    Route::resource('pengeluaran', PengeluaranController::class);
+    Route::post('/pengeluaran/delete-multiple', [PengeluaranController::class, 'deleteMultiple']);
+    Route::get('/pengeluarans/data', [PengeluaranController::class, 'getData'])->name('pengeluarans.data');
 });
 
 Route::post('/logout', function () {

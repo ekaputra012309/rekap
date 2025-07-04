@@ -51,6 +51,10 @@
                     </ul>
                 </div>
             </li>
+            <li class="nav-item"><a class="nav-link {{ request()->routeIs('pemasukan.index') ? 'active' : '' }}"
+                    href="{{ route('pemasukan.index') }}"><i class="fas fa-download me-2"></i>Pemasukan</a></li>
+            <li class="nav-item"><a class="nav-link {{ request()->routeIs('pengeluaran.index') ? 'active' : '' }}"
+                    href="{{ route('pengeluaran.index') }}"><i class="fas fa-upload me-2"></i>Pengeluaran</a></li>
             {{-- <li class="nav-item">
                 <a class="nav-link text-dark" data-bs-toggle="collapse" href="#settingsSubmenu" role="button"
                     aria-expanded="false" aria-controls="settingsSubmenu">
