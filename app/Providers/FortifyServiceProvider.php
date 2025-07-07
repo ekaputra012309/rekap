@@ -15,6 +15,8 @@ use Laravel\Fortify\Fortify;
 
 use Laravel\Fortify\Contracts\LoginResponse;
 use Laravel\Fortify\Contracts\RegisterResponse;
+use Laravel\Fortify\Contracts\PasswordUpdateResponse;
+use Laravel\Fortify\Contracts\ProfileInformationUpdatedResponse;
 use Illuminate\Http\RedirectResponse;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -91,6 +93,26 @@ class FortifyServiceProvider extends ServiceProvider
                     'type' => 'primary',
                     'message' => 'Welcome to your dashboard!',
                 ]);                
+            }
+        });
+
+        $this->app->instance(PasswordUpdateResponse::class, new class implements PasswordUpdateResponse {
+            public function toResponse($request): \Illuminate\Http\RedirectResponse
+            {
+                return redirect()->route('profile.edit')->with('toast', [
+                    'type' => 'success',
+                    'message' => 'Password updated successfully!',
+                ]);
+            }
+        });
+
+        $this->app->instance(ProfileInformationUpdatedResponse::class, new class implements ProfileInformationUpdatedResponse {
+            public function toResponse($request): \Illuminate\Http\RedirectResponse
+            {
+                return redirect()->route('profile.edit')->with('toast', [
+                    'type' => 'success',
+                    'message' => 'Profile updated successfully!',
+                ]);
             }
         });
     }

@@ -17,7 +17,8 @@
                     {{ auth()->user()->name }} <i class="fas fa-user"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-user-circle me-2"></i>Profile</a></li>
+                    <li><a class="dropdown-item" href="{{ route('profile.edit') }}"><i
+                                class="fas fa-user-circle me-2"></i>Profile</a></li>
                     <li><a class="dropdown-item" href="#"><i class="fas fa-cogs me-2"></i>Settings</a></li>
                     <li>
                         <form method="POST" action="{{ route('logout') }}">

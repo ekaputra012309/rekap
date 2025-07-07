@@ -7,6 +7,7 @@ use App\Http\Controllers\OutcomesController;
 use App\Http\Controllers\GessController;
 use App\Http\Controllers\DoomController;
 use App\Http\Controllers\GibController;
+use App\Http\Controllers\HomeController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -37,6 +38,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/gib/delete-multiple', [GibController::class, 'deleteMultiple']);
     Route::get('/gibs/data', [GibController::class, 'getData'])->name('gibs.data');
 
+    Route::get('/profile', [HomeController::class, 'editProfile'])->name('profile.edit');
 });
 
 Route::post('/logout', function () {
