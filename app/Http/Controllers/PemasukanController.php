@@ -22,7 +22,7 @@ class PemasukanController extends Controller
     public function getData(Request $request)
     {
         if ($request->ajax()) {
-            $data = PemasukanHeader::with('details')->get();
+            $data = PemasukanHeader::with('details', 'user')->get();
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -39,6 +39,9 @@ class PemasukanController extends Controller
                     } else {
                         return 'Rp ' . number_format($row->total, 2, ',', '.');
                     }
+                })
+                ->editColumn('oleh', function ($row) {
+                    return $row->user->name;
                 })
                 ->addColumn('action', function ($row) {
                     return '<button type="button" class="btn btn-secondary btn-sm showDetail" data-id="' . $row->id . '"><i class="fas fa-search"></i> Detail</button>';

@@ -40,6 +40,9 @@ class PengeluaranController extends Controller
                         return 'Rp ' . number_format($row->total, 2, ',', '.');
                     }
                 })
+                ->editColumn('oleh', function ($row) {
+                    return $row->user->name;
+                })
                 ->addColumn('action', function ($row) {
                     return '<button type="button" class="btn btn-secondary btn-sm showDetail" data-id="' . $row->id . '"><i class="fas fa-search"></i> Detail</button>';
                 })

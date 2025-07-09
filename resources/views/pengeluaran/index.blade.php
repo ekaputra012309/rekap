@@ -28,6 +28,7 @@
                                         <th><input type="checkbox" id="select-all"></th>
                                         <th>Tanggal</th>
                                         <th>Total Pengeluaran</th>
+                                        <th>Dibuat </th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -84,6 +85,10 @@
                     {
                         data: 'total',
                         name: 'total'
+                    },
+                    {
+                        data: 'oleh',
+                        name: 'oleh'
                     },
                     {
                         data: 'action',
