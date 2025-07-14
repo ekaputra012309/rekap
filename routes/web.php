@@ -11,6 +11,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PemasukanController;
 use App\Http\Controllers\PengeluaranController;
 use App\Http\Controllers\SaldoController;
+use App\Http\Controllers\LaporanController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -52,6 +53,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('saldo', SaldoController::class);
     Route::get('/saldos/data', [SaldoController::class, 'getData'])->name('saldos.data');
+
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/laporan/cetak', [LaporanController::class, 'generate'])->name('laporan.cetak');
+
 });
 
 Route::post('/logout', function () {
