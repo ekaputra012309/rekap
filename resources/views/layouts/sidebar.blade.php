@@ -26,6 +26,10 @@
                             <a class="nav-link {{ request()->routeIs('outcome.index') ? 'active' : '' }}"
                                 href="{{ route('outcome.index') }}">List Pengeluaran</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('saldo.index') ? 'active' : '' }}"
+                                href="{{ route('saldo.index') }}">Saldo Awal</a>
+                        </li>
                     </ul>
                 </div>
             </li>
