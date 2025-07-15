@@ -112,7 +112,8 @@
 
             // Add
             $('#add-btn').on('click', function() {
-                window.location.href = `/pemasukan/create`;
+                // window.location.href = `/pemasukan/create`;
+                window.location.href = "{{ route('pemasukan.create') }}";
             });
 
             // Edit
@@ -123,7 +124,8 @@
                     return;
                 }
                 let id = selected.val();
-                window.location.href = `/pemasukan/${id}/edit`;
+                // window.location.href = `/pemasukan/${id}/edit`;
+                window.location.href = "{{ url('pemasukan') }}/" + id + "/edit";
             });
 
             // Delete
@@ -140,7 +142,8 @@
 
                 confirmModal('Are you sure you want to delete selected pemasukan?', function() {
                     $.ajax({
-                        url: '/pemasukan/delete-multiple',
+                        // url: '/pemasukan/delete-multiple',
+                        url: "{{ route('deletePemasukan') }}",
                         type: 'POST',
                         data: {
                             _token: '{{ csrf_token() }}',
@@ -160,9 +163,11 @@
 
             $('#example').on('click', '.showDetail', function() {
                 let id = $(this).data('id');
+                const showRoute = "{{ url('pemasukan/:id') }}";
+                let url = showRoute.replace(':id', id);
 
                 $.ajax({
-                    url: `/pemasukan/${id}`, // Example route
+                    url: url, // Example route
                     method: 'GET',
                     success: function(response) {
                         $('#detailContent').html(response);

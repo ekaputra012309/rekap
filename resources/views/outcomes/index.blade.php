@@ -78,7 +78,8 @@
 
             // Add
             $('#add-btn').on('click', function() {
-                window.location.href = `/outcome/create`;
+                // window.location.href = `/outcome/create`;
+                window.location.href = "{{ route('outcome.create') }}";
             });
 
             // Edit
@@ -89,7 +90,8 @@
                     return;
                 }
                 let id = selected.val();
-                window.location.href = `/outcome/${id}/edit`;
+                // window.location.href = `/outcome/${id}/edit`;
+                window.location.href = "{{ url('outcome') }}/" + id + "/edit";
             });
 
             // Delete
@@ -106,7 +108,8 @@
 
                 confirmModal('Are you sure you want to delete selected outcome?', function() {
                     $.ajax({
-                        url: '/outcome/delete-multiple',
+                        // url: '/outcome/delete-multiple',
+                        url: "{{ route('deleteOutcome') }}",
                         type: 'POST',
                         data: {
                             _token: '{{ csrf_token() }}',

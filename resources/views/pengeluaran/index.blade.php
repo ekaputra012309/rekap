@@ -112,7 +112,8 @@
 
             // Add
             $('#add-btn').on('click', function() {
-                window.location.href = `/pengeluaran/create`;
+                // window.location.href = `/pengeluaran/create`;
+                window.location.href = "{{ route('pengeluaran.create') }}";
             });
 
             // Edit
@@ -123,7 +124,8 @@
                     return;
                 }
                 let id = selected.val();
-                window.location.href = `/pengeluaran/${id}/edit`;
+                // window.location.href = `/pengeluaran/${id}/edit`;
+                window.location.href = "{{ url('pengeluaran') }}/" + id + "/edit";
             });
 
             // Delete
@@ -140,7 +142,8 @@
 
                 confirmModal('Are you sure you want to delete selected pengeluaran?', function() {
                     $.ajax({
-                        url: '/pengeluaran/delete-multiple',
+                        // url: '/pengeluaran/delete-multiple',
+                        url: "{{ route('deletePengeluaran') }}",
                         type: 'POST',
                         data: {
                             _token: '{{ csrf_token() }}',
@@ -160,9 +163,11 @@
 
             $('#example').on('click', '.showDetail', function() {
                 let id = $(this).data('id');
+                const showRoute = "{{ url('pengeluaran/:id') }}";
+                let url = showRoute.replace(':id', id);
 
                 $.ajax({
-                    url: `/pengeluaran/${id}`, // Example route
+                    url: url, // Example route
                     method: 'GET',
                     success: function(response) {
                         $('#detailContent').html(response);

@@ -84,7 +84,8 @@
                     return;
                 }
                 let id = selected.val();
-                window.location.href = `/saldo/${id}/edit`;
+                // window.location.href = `/saldo/${id}/edit`;
+                window.location.href = "{{ url('saldo') }}/" + id + "/edit";
             });
         });
     </script>

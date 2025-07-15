@@ -78,7 +78,8 @@
 
             // Add
             $('#add-btn').on('click', function() {
-                window.location.href = `/income/create`;
+                // window.location.href = `/income/create`;
+                window.location.href = "{{ route('income.create') }}";
             });
 
             // Edit
@@ -89,7 +90,8 @@
                     return;
                 }
                 let id = selected.val();
-                window.location.href = `/income/${id}/edit`;
+                // window.location.href = `/income/${id}/edit`;
+                window.location.href = "{{ url('income') }}/" + id + "/edit";
             });
 
             // Delete
@@ -106,7 +108,8 @@
 
                 confirmModal('Are you sure you want to delete selected income?', function() {
                     $.ajax({
-                        url: '/income/delete-multiple',
+                        // url: '/income/delete-multiple',
+                        url: "{{ route('deleteIncome') }}",
                         type: 'POST',
                         data: {
                             _token: '{{ csrf_token() }}',

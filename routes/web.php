@@ -23,32 +23,32 @@ Route::middleware(['auth'])->group(function () {
     })->name('dashboard');
 
     Route::resource('income', IncomesController::class);
-    Route::post('/income/delete-multiple', [IncomesController::class, 'deleteMultiple']);
+    Route::post('/income/delete-multiple', [IncomesController::class, 'deleteMultiple'])->name('deleteIncome');
     Route::get('/incomes/data', [IncomesController::class, 'getData'])->name('incomes.data');
 
     Route::resource('outcome', OutcomesController::class);
-    Route::post('/outcome/delete-multiple', [OutcomesController::class, 'deleteMultiple']);
+    Route::post('/outcome/delete-multiple', [OutcomesController::class, 'deleteMultiple'])->name('deleteOutcome');
     Route::get('/outcomes/data', [OutcomesController::class, 'getData'])->name('outcomes.data');
 
     Route::resource('gess', GessController::class);
-    Route::post('/gess/delete-multiple', [GessController::class, 'deleteMultiple']);
+    Route::post('/gess/delete-multiple', [GessController::class, 'deleteMultiple'])->name('deleteGess');
     Route::get('/gesss/data', [GessController::class, 'getData'])->name('gesss.data');
 
     Route::resource('doom', DoomController::class);
-    Route::post('/doom/delete-multiple', [DoomController::class, 'deleteMultiple']);
+    Route::post('/doom/delete-multiple', [DoomController::class, 'deleteMultiple'])->name('deleteDoom');
     Route::get('/dooms/data', [DoomController::class, 'getData'])->name('dooms.data');
 
     Route::resource('gib', GibController::class);
-    Route::post('/gib/delete-multiple', [GibController::class, 'deleteMultiple']);
+    Route::post('/gib/delete-multiple', [GibController::class, 'deleteMultiple'])->name('deleteGib');
     Route::get('/gibs/data', [GibController::class, 'getData'])->name('gibs.data');
 
     Route::get('/profile', [HomeController::class, 'editProfile'])->name('profile.edit');
     Route::resource('pemasukan', PemasukanController::class);
-    Route::post('/pemasukan/delete-multiple', [PemasukanController::class, 'deleteMultiple']);
+    Route::post('/pemasukan/delete-multiple', [PemasukanController::class, 'deleteMultiple'])->name('deletePemasukan');
     Route::get('/pemasukans/data', [PemasukanController::class, 'getData'])->name('pemasukans.data');
 
     Route::resource('pengeluaran', PengeluaranController::class);
-    Route::post('/pengeluaran/delete-multiple', [PengeluaranController::class, 'deleteMultiple']);
+    Route::post('/pengeluaran/delete-multiple', [PengeluaranController::class, 'deleteMultiple'])->name('deletePengeluaran');
     Route::get('/pengeluarans/data', [PengeluaranController::class, 'getData'])->name('pengeluarans.data');
 
     Route::resource('saldo', SaldoController::class);

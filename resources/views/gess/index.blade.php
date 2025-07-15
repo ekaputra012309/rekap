@@ -98,7 +98,8 @@
 
             // Add
             $('#add-btn').on('click', function() {
-                window.location.href = `/gess/create`;
+                // window.location.href = `/gess/create`;
+                window.location.href = "{{ route('gess.create') }}";
             });
 
             // Edit
@@ -109,7 +110,8 @@
                     return;
                 }
                 let id = selected.val();
-                window.location.href = `/gess/${id}/edit`;
+                // window.location.href = `/gess/${id}/edit`;
+                window.location.href = "{{ url('gess') }}/" + id + "/edit";
             });
 
             // Delete
@@ -126,7 +128,8 @@
 
                 confirmModal('Are you sure you want to delete selected gess?', function() {
                     $.ajax({
-                        url: '/gess/delete-multiple',
+                        // url: '/gess/delete-multiple',
+                        url: "{{ route('deleteGess') }}",
                         type: 'POST',
                         data: {
                             _token: '{{ csrf_token() }}',

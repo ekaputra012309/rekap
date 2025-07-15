@@ -93,7 +93,8 @@
 
             // Add
             $('#add-btn').on('click', function() {
-                window.location.href = `/gib/create`;
+                // window.location.href = `/gib/create`;
+                window.location.href = "{{ route('gib.create') }}";
             });
 
             // Edit
@@ -104,7 +105,8 @@
                     return;
                 }
                 let id = selected.val();
-                window.location.href = `/gib/${id}/edit`;
+                // window.location.href = `/gib/${id}/edit`;
+                window.location.href = "{{ url('gib') }}/" + id + "/edit";
             });
 
             // Delete
@@ -121,7 +123,8 @@
 
                 confirmModal('Are you sure you want to delete selected gib?', function() {
                     $.ajax({
-                        url: '/gib/delete-multiple',
+                        // url: '/gib/delete-multiple',
+                        url: "{{ route('deleteGib') }}",
                         type: 'POST',
                         data: {
                             _token: '{{ csrf_token() }}',

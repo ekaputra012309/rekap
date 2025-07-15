@@ -93,7 +93,8 @@
 
             // Add
             $('#add-btn').on('click', function() {
-                window.location.href = `/doom/create`;
+                // window.location.href = `/doom/create`;
+                window.location.href = "{{ route('doom.create') }}";
             });
 
             // Edit
@@ -104,7 +105,8 @@
                     return;
                 }
                 let id = selected.val();
-                window.location.href = `/doom/${id}/edit`;
+                // window.location.href = `/doom/${id}/edit`;
+                window.location.href = "{{ url('doom') }}/" + id + "/edit";
             });
 
             // Delete
@@ -121,7 +123,8 @@
 
                 confirmModal('Are you sure you want to delete selected doom?', function() {
                     $.ajax({
-                        url: '/doom/delete-multiple',
+                        // url: '/doom/delete-multiple',
+                        url: "{{ route('deleteDoom') }}",
                         type: 'POST',
                         data: {
                             _token: '{{ csrf_token() }}',
