@@ -13,13 +13,37 @@
                 </div>
                 <div class="card-body">
                     <form method="GET" action="{{ route('laporan.cetak') }}" target="_blank">
-                        <label>Start Date:</label>
-                        <input class="form-control mb-2" type="date" name="start" value="{{ request('start') }}"
-                            required>
-                        <label>End Date:</label>
-                        <input class="form-control mb-2" type="date" name="end" value="{{ request('end') }}"
-                            required>
-                        <button class="btn btn-primary" type="submit">Generate PDF</button>
+                        <div class="row">
+                            <div class="form-group col-12 col-md-3">
+                                <label>Jenis Laporan:</label>
+                                <select name="type" class="form-control mb-2" required>
+                                    <option value="laporan" {{ request('type') == 'laporan' ? 'selected' : '' }}>Laporan
+                                        Umum
+                                    </option>
+                                    <option value="gib" {{ request('type') == 'gib' ? 'selected' : '' }}>GIB</option>
+                                    <option value="gess" {{ request('type') == 'gess' ? 'selected' : '' }}>GESS</option>
+                                    <option value="doom" {{ request('type') == 'doom' ? 'selected' : '' }}>DOOM</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-12 col-md-3">
+                                <label>Start Date:</label>
+                                <input class="form-control mb-2" type="date" name="start"
+                                    value="{{ request('start') }}" required>
+                            </div>
+
+                            <div class="form-group col-12 col-md-3">
+                                <label>End Date:</label>
+                                <input class="form-control mb-2" type="date" name="end" value="{{ request('end') }}"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-primary " type="submit"><i class="fas fa-file-pdf"></i> Generate
+                                PDF</button>
+                            <button class="btn btn-secondary" type="reset"><i class="fas fa-redo-alt"></i> Reset</button>
+                        </div>
                     </form>
                 </div>
             </div>
