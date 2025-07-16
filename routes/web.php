@@ -43,6 +43,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/gibs/data', [GibController::class, 'getData'])->name('gibs.data');
 
     Route::get('/profile', [HomeController::class, 'editProfile'])->name('profile.edit');
+
     Route::resource('pemasukan', PemasukanController::class);
     Route::post('/pemasukan/delete-multiple', [PemasukanController::class, 'deleteMultiple'])->name('deletePemasukan');
     Route::get('/pemasukans/data', [PemasukanController::class, 'getData'])->name('pemasukans.data');
@@ -56,6 +57,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
     Route::get('/laporan/cetak', [LaporanController::class, 'generate'])->name('laporan.cetak');
+
+    Route::get('/company', [HomeController::class, 'editCompany'])->name('company.edit');
+    Route::put('/company/{company}', [HomeController::class, 'updateCompany'])->name('company.update');
 
 });
 

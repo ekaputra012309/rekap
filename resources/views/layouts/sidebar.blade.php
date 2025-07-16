@@ -2,7 +2,7 @@
 <div id="sidebar" class="bg-light d-md-block border-end">
     <div class="p-3">
         <h5 class="text-dark d-flex justify-content-between align-items-center">
-            Admin Panel
+            {{ $company->name ?? 'Admin Panel' }}
             <button class="btn btn-sm d-md-none" id="closeSidebar">
                 <i class="fas fa-times"></i>
             </button>

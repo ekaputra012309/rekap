@@ -6,7 +6,11 @@
     <main class="form-signin w-100 m-auto">
         <form method="POST" action="{{ route('register') }}">
             @csrf
-            <h1 class="h3 mb-3 fw-normal text-center">Register</h1>
+            <div class="text-center mb-3">
+                <img src="{{ asset('storage/' . $company->logo) }}" alt="{{ $company->name }}" height="120">
+            </div>
+
+            {{-- <h1 class="h3 mb-3 fw-normal text-center">Register</h1> --}}
 
             <div class="form-floating mb-2">
                 <input type="text" name="name" class="form-control" id="floatingName" placeholder="Your name" required>
@@ -38,6 +42,8 @@
             </div>
 
             <button type="submit" class="btn btn-success w-100 py-2">Register</button>
+
+            <p class="mb-25 text-center mt-4">&copy; 2025 {{ $company->name ?? 'Kitacodinginaja' }}</p>
         </form>
     </main>
 @endsection

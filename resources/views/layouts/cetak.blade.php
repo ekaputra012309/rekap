@@ -62,13 +62,15 @@
         <table id="kop">
             <tr>
                 <td style="width: 60px; border:none">
-                    <img src="{{ public_path('img/logo dkm.png') }}" alt="Logo" width="80">
+                    <img src="{{ $logoBase64 }}" alt="{{ $company->name }}" height="80">
                 </td>
                 <td style="text-align: center; border: none">
-                    <h1 style="margin: 0;">Masjid At-Taqwa</h1>
+                    <h1 style="margin: 0;">{{ $company->name }}</h1>
                     <p style="margin: 0; font-size: 14px">
-                        Jl. Raya Penggilingan Komplek Perkampungan Industri Kecil (PIK) Blok E Rt 09 Rw 10 Penggilingan
-                        Cakung Jakarta Timur.</p>
+                        {{ $company->address }}
+                        {{ $company->phone ? '. ' . $company->phone : '' }}
+                        {{ $company->email ? '. ' . $company->email : '' }}
+                    </p>
                 </td>
             </tr>
         </table>

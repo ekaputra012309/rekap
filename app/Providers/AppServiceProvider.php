@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Carbon\Carbon;
+use App\Models\Company;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,5 +24,8 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Carbon::setLocale('id');
+        View::composer('*', function ($view) {
+            $view->with('company', Company::first());
+        });        
     }
 }

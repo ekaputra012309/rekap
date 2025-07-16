@@ -6,6 +6,7 @@ use App\Models\Saldo;
 use App\Models\Gib;
 use App\Models\Doom;
 use App\Models\Gess;
+use App\Models\Company;
 use App\Models\PemasukanHeader;
 use App\Models\PengeluaranHeader;
 use App\Models\PemasukanDetail;
@@ -13,6 +14,7 @@ use App\Models\PengeluaranDetail;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class LaporanController extends Controller
 {
@@ -26,6 +28,12 @@ class LaporanController extends Controller
 
     public function generate(Request $request)
     {
+        $company = Company::first();
+        $logoPath = storage_path('app/public/' . $company->logo);
+        $logoData = base64_encode(file_get_contents($logoPath));
+        $logoMime = mime_content_type($logoPath);
+        $logoBase64 = 'data:' . $logoMime . ';base64,' . $logoData;
+
         $type = $request->type ?? 'laporan';
 
         $start = $request->start 
@@ -39,6 +47,7 @@ class LaporanController extends Controller
         // Handle GIB report
         if ($type === 'gib') {
             $data = [
+                'logoBase64' => $logoBase64,
                 'title' => 'Laporan GIB',
                 'items' => Gib::whereBetween('tanggal', [$start, $end])->orderBy('tanggal')->get(),
                 'start' => Carbon::parse($start)->format('d M Y'),
@@ -50,6 +59,7 @@ class LaporanController extends Controller
         // Handle GESS report
         if ($type === 'gess') {
             $data = [
+                'logoBase64' => $logoBase64,
                 'title' => 'Laporan GESS',
                 'items' => Gess::whereBetween('tanggal', [$start, $end])->orderBy('tanggal')->get(),
                 'start' => Carbon::parse($start)->format('d M Y'),
@@ -61,6 +71,7 @@ class LaporanController extends Controller
         // Handle DOOM report
         if ($type === 'doom') {
             $data = [
+                'logoBase64' => $logoBase64,
                 'title' => 'Laporan DOOM',
                 'items' => Doom::whereBetween('tanggal', [$start, $end])->orderBy('tanggal')->get(),
                 'start' => Carbon::parse($start)->format('d M Y'),
@@ -136,6 +147,7 @@ class LaporanController extends Controller
             'totalDoom' => $totalDoom,
             'totalGess' => $totalGess,
             'saldoawal' => $saldoAwalValue,
+            'logoBase64' => $logoBase64,
         ];
 
         return Pdf::loadView('laporan.laporan', $data)
