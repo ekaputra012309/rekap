@@ -36,11 +36,11 @@ class LaporanController extends Controller
 
         $type = $request->type ?? 'laporan';
 
-        $start = $request->start 
+        $start = $request->start
             ? Carbon::parse($request->start)->startOfDay()->toDateTimeString()
             : now()->startOfMonth()->startOfDay()->toDateTimeString();
 
-        $end = $request->end 
+        $end = $request->end
             ? Carbon::parse($request->end)->endOfDay()->toDateTimeString()
             : now()->endOfDay()->toDateTimeString();
 
@@ -81,55 +81,79 @@ class LaporanController extends Controller
         }
 
         // Default: laporan umum
-        $datapemasukan = PemasukanHeader::with('details')
+        $datapemasukan = PemasukanHeader::with(['details' => function ($q) {
+            $q->whereNotNull('income_id');
+        }])
             ->whereBetween('tanggal', [$start, $end])
-            ->whereHas('details', fn ($q) => $q->whereNotNull('income_id'))
-            ->orderBy('tanggal')->get()->groupBy('tanggal');
+            ->whereHas('details', function ($q) {
+                $q->whereNotNull('income_id');
+            })
+            ->orderBy('tanggal')
+            ->get()
+            ->groupBy('tanggal');
 
-        $datapemasukanlain = PemasukanHeader::with('details')
+        $datapemasukanlain = PemasukanHeader::with(['details' => function ($q) {
+            $q->whereNull('income_id');
+        }])
             ->whereBetween('tanggal', [$start, $end])
-            ->whereHas('details', fn ($q) => $q->whereNull('income_id'))
-            ->orderBy('tanggal')->get()->groupBy('tanggal');
+            ->whereHas('details', function ($q) {
+                $q->whereNull('income_id');
+            })
+            ->orderBy('tanggal')
+            ->get()
+            ->groupBy('tanggal');
 
-        $datapengeluaran = PengeluaranHeader::with(['details' => fn ($q) => $q->whereNotNull('outcome_id')])
+        $datapengeluaran = PengeluaranHeader::with(['details' => function ($q) {
+            $q->whereNotNull('outcome_id');
+        }])
             ->whereBetween('tanggal', [$start, $end])
-            ->whereHas('details', fn ($q) => $q->whereNotNull('outcome_id'))
-            ->orderBy('tanggal')->get()->groupBy('tanggal');
+            ->whereHas('details', function ($q) {
+                $q->whereNotNull('outcome_id');
+            })
+            ->orderBy('tanggal')
+            ->get()
+            ->groupBy('tanggal');
 
-        $datapengeluaranlain = PengeluaranHeader::with(['details' => fn ($q) => $q->whereNull('outcome_id')])
+        $datapengeluaranlain = PengeluaranHeader::with(['details' => function ($q) {
+            $q->whereNull('outcome_id');
+        }])
             ->whereBetween('tanggal', [$start, $end])
-            ->whereHas('details', fn ($q) => $q->whereNull('outcome_id'))
-            ->orderBy('tanggal')->get()->groupBy('tanggal');
+            ->whereHas('details', function ($q) {
+                $q->whereNull('outcome_id');
+            })
+            ->orderBy('tanggal')
+            ->get()
+            ->groupBy('tanggal');
 
         $totalGib = Gib::whereBetween('tanggal', [$start, $end])->sum('nominal');
         $totalDoom = Doom::whereBetween('tanggal', [$start, $end])->sum('nominal');
         $totalGess = Gess::whereBetween('tanggal', [$start, $end])->sum('nominal');
 
-        $formattedPemasukan = $datapemasukan->mapWithKeys(fn ($group, $tanggal) => [
+        $formattedPemasukan = $datapemasukan->mapWithKeys(fn($group, $tanggal) => [
             Carbon::parse($tanggal)->translatedFormat('d M') => $group
         ]);
 
-        $formattedPemasukanLain = $datapemasukanlain->mapWithKeys(fn ($group, $tanggal) => [
+        $formattedPemasukanLain = $datapemasukanlain->mapWithKeys(fn($group, $tanggal) => [
             Carbon::parse($tanggal)->translatedFormat('d M') => $group
         ]);
 
-        $formattedPengeluaran = $datapengeluaran->mapWithKeys(fn ($group, $tanggal) => [
+        $formattedPengeluaran = $datapengeluaran->mapWithKeys(fn($group, $tanggal) => [
             Carbon::parse($tanggal)->translatedFormat('d M') => $group
         ]);
 
-        $formattedPengeluaranLain = $datapengeluaranlain->mapWithKeys(fn ($group, $tanggal) => [
+        $formattedPengeluaranLain = $datapengeluaranlain->mapWithKeys(fn($group, $tanggal) => [
             Carbon::parse($tanggal)->translatedFormat('d M') => $group
         ]);
 
         $startCarbon = Carbon::parse($start);
         $initialSaldo = Saldo::first()?->saldo_awal ?? 0;
 
-        $totalMasukBefore = PemasukanDetail::whereHas('header', fn ($q) => $q->where('tanggal', '<', $startCarbon))
+        $totalMasukBefore = PemasukanDetail::whereHas('header', fn($q) => $q->where('tanggal', '<', $startCarbon))
             ->sum('nominal');
         $totalGibBefore = Gib::where('tanggal', '<', $startCarbon)->sum('nominal');
         $totalDoomBefore = Doom::where('tanggal', '<', $startCarbon)->sum('nominal');
         $totalGessBefore = Gess::where('tanggal', '<', $startCarbon)->sum('nominal');
-        $totalKeluarBefore = PengeluaranDetail::whereHas('header', fn ($q) => $q->where('tanggal', '<', $startCarbon))
+        $totalKeluarBefore = PengeluaranDetail::whereHas('header', fn($q) => $q->where('tanggal', '<', $startCarbon))
             ->sum('nominal');
 
         $totalMasukBefore += $totalGibBefore + $totalDoomBefore + $totalGessBefore;
